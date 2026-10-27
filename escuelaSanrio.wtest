@@ -1,0 +1,85 @@
+import escuelaSanrio.*
+
+describe "Escuela de Magia Sanrio" {
+    
+    test "Una nube gris disminuye su tristeza pero nunca baja de cero" {
+        const nube = new NubeGris(tristeza = 50)
+        nube.disminuirTristeza(60)
+        
+        assert.equals(0, nube.tristeza())
+        assert.that(nube.estaDespejada())
+    }
+
+    test "Una nube de tormenta resta la resistencia al impacto recibido" {
+        const nube = new NubeTormenta(tristeza = 100, resistencia = 20)
+        nube.disminuirTristeza(50) 
+        
+        assert.equals(70, nube.tristeza())
+    }
+
+    test "Varita estrella normal resta 20 de brillo y no aplica efecto" {
+        const nube = new NubeGris(tristeza = 100)
+        // Te paso potencia = 0 porque tu código actual lo exige para compilar
+        const estrella = new VaritaEstrella(brillo = 50, potencia = 0) 
+        
+        estrella.hechizarNube(nube)
+        
+        assert.equals(30, estrella.brillo()) 
+        assert.equals(50, nube.tristeza()) 
+    }
+
+    test "MATEMÁTICA: El brillo de una varita nunca es menor a cero tras desgastarse" {
+        const nube = new NubeGris(tristeza = 100)
+        const estrella = new VaritaEstrella(brillo = 10, potencia = 0)
+        
+        estrella.hechizarNube(nube)
+        
+        assert.equals(0, estrella.brillo())
+    }
+
+    test "Varita apagada (brillo 0) lanza una excepción al intentar hechizar" {
+        const nube = new NubeGris(tristeza = 100)
+        const estrella = new VaritaEstrella(brillo = 0, potencia = 0)
+        
+        assert.throwsException({ estrella.hechizarNube(nube) })
+    }
+
+
+    test "SINTAXIS: El estudiante puede lanzar un hechizo a la nube" {
+        const nube = new NubeGris(tristeza = 100)
+        const juguete = new VaritaJuguete(brillo = 100, potencia = 0)
+        const kitty = new Estudiante(felicidad = 100, varitasMagicas = [juguete])
+
+        
+        assert.equals(50, nube.tristeza())
+    }
+
+    test "MATEMÁTICA: El brillo de una varita con brillo inicial bajo no puede quedar negativo" {
+        const nube = new NubeGris(tristeza = 100)
+        const estrella = new VaritaEstrella(brillo = 10, potencia = 0)
+        
+        estrella.hechizarNube(nube)
+        
+        assert.equals(0, estrella.brillo())
+    }
+
+    test "LÓGICA DE HERENCIA: La varita de corazón SIEMPRE puede hechizar (incluso con brillo 0)" {
+        const nube = new NubeGris(tristeza = 100)
+        const corazon = new VaritaCorazon(brillo = 0, potencia = 0, nivelAmor = 10)
+        
+        corazon.hechizarNube(nube) 
+        
+        assert.equals(80, nube.tristeza())
+    }
+
+    test "COMPORTAMIENTO: La varita de juguete no pierde brillo al hechizar" {
+        const nube = new NubeGris(tristeza = 100)
+        const juguete = new VaritaJuguete(brillo = 10, potencia = 0)
+        
+        // Al ejecutar, tu código actual sí le está restando brillo a la de juguete
+        // porque usaste super() sin darte cuenta de las consecuencias.
+        juguete.hechizarNube(nube)
+        
+        assert.equals(10, juguete.brillo())
+    }
+}
