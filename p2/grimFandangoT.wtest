@@ -1,0 +1,25 @@
+import grimFandango.*
+
+
+describe "test para probar que un paquete sirve para un alma" {
+  test "alma con menos de 50 acciones buenas recibe un paquete bote" {
+    const almaPobre = new Alma(dinero = 1000, buenasAcciones = 49)
+
+    const paqueteOfrecido = estrategiaNavegante.armarPaquete(almaPobre)
+
+    assert.equals(49, paqueteOfrecido.valorBasico())
+
+    assert.equals(0.98, paqueteOfrecido.aniosReducidos(almaPobre))
+  }
+
+
+    test "alma con 50 o mas acciones recibe un paquete crucero" {
+        const almaRica = new Alma(dinero = 1000, buenasAcciones = 50)
+
+        const paqueteOfrecido = estrategiaNavegante.armarPaquete(almaRica)
+
+        assert.equals(50, paqueteOfrecido.valorBasico())
+
+        assert.equals(2, paqueteOfrecido.aniosReducidos(almaRica))
+    }
+}
